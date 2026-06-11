@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Find Chai Stores
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto px-6 py-12">
+    <a href="{% url 'home' %}"
+        class="inline-flex items-center text-slate-400 hover:text-amber-400 transition mb-8">
+        ← Back to Home
+    </a> 
+
+    <h1 class="text-5xl font-bold text-center mb-10">
+        Find Stores Selling Your Favorite Chai 
+    </h1>
+
+    <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8">
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-lg mb-2 text-slate-300">
+                    Select Chai Variety
+                </label>
+
+                {{ form.chai_variety }}
+            </div>
+
+            <button
+                type="submit"
+                class="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition">
+                Find Stores
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if stores %}
+
+    <div class="mt-12">
+
+        <h2 class="text-3xl font-bold mb-6">
+            Stores Selling {{ chai_variety }}
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+            {% for store in stores %}
+
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:scale-105 transition">
+
+                <h3 class="text-2xl font-semibold">
+                    {{ store.name }}
+                </h3>
+
+                <p class="text-slate-400 mt-2">
+                    📍 {{ store.location }}
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+
+{% comment %} {% extends "layout.html" %}
+
+{% block content %}
+  <h1>Find Stores Selling Your Favorite Chai</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Find Stores</button>
+  </form>
+
+  {% if stores %}
+    <h2>Stores Selling {{ form.cleaned_data.chai_variety }}</h2>
+    <ul>
+      {% for store in stores %}
+        <li>{{ store.name }} - {{ store.location }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %} {% endcomment %}
